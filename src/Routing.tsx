@@ -10,7 +10,7 @@ import Dashboard from "./pages/Dashboard";
 
 function Routing() {
   return (
-    <div className="sm:mx-16  border-2 border-blue-800">
+    <div className="sm:mx-16  border-4 border-blue-800 bg-[#e5e4e4]">
       <Header />
       <div className="flex">
 

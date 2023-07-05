@@ -1,99 +1,92 @@
 import axios from "axios";
-
-import { Marker, Popup } from "react-leaflet"
+import { useQuery } from "react-query";
+import { Marker, Popup } from "react-leaflet";
 import { MapContainer, TileLayer } from "react-leaflet";
 import WorldMap from "./map";
-import 'leaflet/dist/leaflet.css';
+import "leaflet/dist/leaflet.css";
 import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import {
-	CategoryScale,
-	Chart as ChartJS,
-	Legend,
-	LineElement,
-	LinearScale,
-	PointElement,
-	Title,
-	Tooltip,
-} from 'chart.js';
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LineElement,
+  LinearScale,
+  PointElement,
+  Title,
+  Tooltip,
+} from "chart.js";
 
 const Map = () => {
-	const [countriesData, setCountriesData] = useState([]);
-	const [chartData, setChartData] = useState({});
+  const [chartData, setChartData] = useState({});
+  const { data: countriesData } = useQuery("countriesData", () =>
+    axios("https://disease.sh/v3/covid-19/countries").then((res) => res.data)
+  );
+  const { data: historicalData } = useQuery("historicalData", () =>
+    axios("https://disease.sh/v3/covid-19/historical/all?lastdays=all").then(
+      (res) => res.data
+    )
+  );
 
-	useEffect(() => {
-		axios(
-			"https://disease.sh/v3/covid-19/countries"
-		)
-			.then((res) => {
-				const data = res.data
-				setCountriesData(data);
-			})
-	}, []);
+  useEffect(() => {
+    if (historicalData) {
+      const newChartData = {
+        labels: Object.keys(historicalData.cases),
+        datasets: [
+          {
+            label: "Cases",
+            data: Object.values(historicalData.cases),
+            fill: false,
+            borderColor: "#f50057",
+            tension: 0.2,
+          },
+        ],
+      };
+      setChartData(newChartData);
+    }
 
-	useEffect(() => {
-		axios.get(
-			"https://disease.sh/v3/covid-19/historical/all?lastdays=all"
-		).then((res) => {
-			const data = res.data
-			const newChartData = {
-				labels: Object.keys(data.cases),
-				datasets: [
-					{
-						label: "Cases",
-						data: Object.values(data.cases),
-						fill: false,
-						borderColor: "#f50057",
-						tension: 0.2,
-					},
-				],
-			};
-			setChartData(newChartData);
-		})
+    ChartJS.register(
+      CategoryScale,
+      LinearScale,
+      PointElement,
+      LineElement,
+      Title,
+      Tooltip,
+      Legend
+    );
+  }, [historicalData]);
 
-		ChartJS.register(
-			CategoryScale,
-			LinearScale,
-			PointElement,
-			LineElement,
-			Title,
-			Tooltip,
-			Legend
-		);
-
-	}, []);
-
-
-	return (
-		<div className="w-full flex flex-col justify-center items-center " >
-			<p className="h1 d-flex justify-content-center">Corona Cases Chart</p>
-			<div className="w-2/3 border border-black  p-1" >
-
-				{
-					chartData.datasets ?
-						<Line data={chartData}  /> : <h1 className="">Loading...</h1>
-				}
-
-			</div>
-			<p className="h1 d-flex justify-content-center">Corona Cases World Map</p>
-			<div className="brdr container" id="">
-				<MapContainer
-					center={[25.59, 85.13]}
-					zoom={4}
-					scrollWheelZoom={true}
-					className=""
-				>
-					<TileLayer
-						attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-						url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-					/>
-					<WorldMap countriesData={countriesData} />
-				</MapContainer>
-			</div>
-		</div>
-	);
+  return (
+    <div className="w-full flex flex-col justify-center items-center border m-10 bg-white border-black">
+      <h2 className="h1 d-flex justify-content-center font-bold	 text-2xl py-5 ">
+        Corona Cases Chart
+      </h2>
+      <div className="w-2/3 border bg-white border-black  p-1">
+        {chartData.datasets ? (
+          <Line data={chartData} />
+        ) : (
+          <h1 className="">Loading...</h1>
+        )}
+      </div>
+      <h1 className="h1 d-flex justify-content-center font-bold	 text-2xl py-5">
+        Corona Cases World Map
+      </h1>
+      <div className="p-5 sm:px-16 md:px-28 lg:px-44 container" id="">
+        <MapContainer
+          center={[25.59, 85.13]}
+          zoom={4}
+          scrollWheelZoom={true}
+          className=""
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {countriesData && <WorldMap countriesData={countriesData} />}
+        </MapContainer>
+      </div>
+    </div>
+  );
 };
 
 export default Map;
-
-
