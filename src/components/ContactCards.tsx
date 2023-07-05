@@ -26,6 +26,7 @@ function ContactCards() {
   const handleDelete = (contact: Contact) => {
     dispatch(deleteContact(contact.id));  
   };
+  
   return (
     <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
       {contacts?.map((contact: Contact) => {
