@@ -5,7 +5,7 @@ import { RootState } from '../redux/store';
 import { v4 as uuidv4 } from 'uuid';
 
 function ContactForm() {
-  const [status, setStatus] = useState('active');
+  const [status, setStatus] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
 
@@ -16,20 +16,23 @@ function ContactForm() {
   };
 
   const handleSubmit = () => {
+    if (!firstName || !lastName || !status) {
+      // Perform validation here, display error message or take appropriate action
+      alert("cant be null")
+      return;
+    }
     const contactData = {
       id: uuidv4(),
       firstName,
       lastName,
       status
     };
-    console.log(contactData)
     dispatch(setContacts([contactData]));
-    setStatus('active')
+    setStatus('')
     setFirstName("")
     setLastName("")
   };
   const { contacts } = useSelector((state: RootState) => state.contacts);
-  console.log("contacts ", contacts);
 
   return (
     <div className="w-full flex flex-col justify-center items-center">
@@ -42,12 +45,14 @@ function ContactForm() {
           </div>
           <div className="col-span-3 flex flex-col gap-y-2">
             <input
+            required
               type="text"
               className="border border-black"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
             />
             <input
+            required
               type="text"
               className="border border-black"
               value={lastName}
@@ -55,6 +60,7 @@ function ContactForm() {
             />
             <label>
               <input
+              required
                 type="radio"
                 name="status"
                 value="active"

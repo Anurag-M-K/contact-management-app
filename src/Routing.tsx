@@ -5,6 +5,7 @@ import Sidebar from "./components/Sidebar";
 import EmptyContact from "./pages/EmptyContact";
 import ContactFormPage from "./pages/ContactFormPage";
 import EditContactDetails from "./components/EditContactDetails";
+import Dashboard from "./pages/Dashboard";
 
 
 function Routing() {
@@ -18,6 +19,7 @@ function Routing() {
         <Route path="/contact-form" element={<ContactFormPage />} />
         <Route path="/" element={<EmptyContact />} />
         <Route path="/edit" element={<EditContactDetails />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
       </div>
     </div>

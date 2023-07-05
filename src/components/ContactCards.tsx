@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { setEditContact } from '../redux/features/selectedContactSlice';
 import { useNavigate } from 'react-router-dom';
+import { deleteContact } from '../redux/features/contactSlice';
 
 interface Contact {
   id: string;
@@ -23,6 +24,9 @@ function ContactCards() {
     navigate("edit");
   };
 
+  const handleDelete = (contact: Contact) => {
+    dispatch(deleteContact(contact.id));
+  };
   return (
     <div className='grid grid-cols-4'>
       {contacts?.map((contact: Contact) => {
@@ -32,7 +36,7 @@ function ContactCards() {
             <h4 className="text-center font-medium m-2">{contact.firstName} {contact.lastName}</h4>
             <h5 className="border p-1 m-2">Status: <span className="text-red-600">{contact.status}</span></h5>
             <button className="bg-green-300 cursor-pointer shadow-inner text-white w-20 rounded-md border-green-400 font-medium hover:bggreen-400 border-2" onClick={() => handleEdit(contact)}>Edit</button>
-            <button className="bg-red-300 cursor-pointer shadow-inner m-3 text-white w-20 rounded-md border-gray-400 font-medium hover:bg-red-400 border-2">Delete</button>
+            <button className="bg-red-300 cursor-pointer shadow-inner m-3 text-white w-20 rounded-md border-gray-400 font-medium hover:bg-red-400 border-2" onClick={() => handleDelete(contact)}>Delete</button>
           </div>
         );
       })}

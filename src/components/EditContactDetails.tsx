@@ -24,6 +24,9 @@ function EditContactDetails() {
     setStatus(e.target.value);
   };
 
+  // console.log("id", editContact.editContact[0].id);x
+
+
   const handleSaveContact = () => {
     const editedContact: EditContact = {
       id: editContact.id,
@@ -31,7 +34,6 @@ function EditContactDetails() {
       lastName: lastName,
       status: status,
     };
-    console.log("editedcontact ",editedContact)
 
     dispatch(updateContact({ id: editContact.id, updatedContact: editedContact }));
   };

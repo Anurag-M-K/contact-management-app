@@ -1,8 +1,9 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
-import { contactSlice } from "./features/contactSlice";
+
 import {editContactSlice} from "./features/selectedContactSlice";
+import {contactSlice} from "./features/contactSlice";
 
 // Define RootState type
 type RootState = ReturnType<typeof store.getState>;

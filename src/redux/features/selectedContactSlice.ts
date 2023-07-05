@@ -8,7 +8,7 @@ interface EditContact {
 }
 
 interface EditContactState {
-  editContact: EditContact[];
+  editContact:any[];
 }
 
 export const initialState: EditContactState = {
