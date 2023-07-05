@@ -1,11 +1,15 @@
 import React from 'react'
-import Map from '../components/ChartAndMap'
+import Map from '../components/ChartAndMap';
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
+
 
 function Dashboard() {
+  const queryClient = new QueryClient();
+
   return (
-    <div className='w-screen'>
-     <Map/>   
-    </div>
+    <QueryClientProvider className="w-screen" client={queryClient}>
+    <Map />
+  </QueryClientProvider>
   )
 }
 
