@@ -23,11 +23,13 @@ export const contactSlice = createSlice({
       state.contacts = [...state.contacts, ...action.payload];
     },
     updateContact: (state, action: PayloadAction<{ id: string; updatedContact: Contact }>) => {
+      console.log('action paylod from sloice ',action.payload)
       const { id, updatedContact } = action.payload;
-      const index = state.contacts.findIndex((contact) => contact.id === id);
-      if (index !== -1) {
-        state.contacts[index] = updatedContact;
-      }
+      console.log("contacts from slice ",id)
+
+      state.contacts = state.contacts.map(contact =>
+        contact.id === id ? updatedContact : contact
+      );
     },
     deleteContact: (state, action: PayloadAction<string>) => {
       state.contacts = state.contacts.filter((contact) => contact.id !== action.payload);

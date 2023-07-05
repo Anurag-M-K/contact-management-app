@@ -5,6 +5,7 @@ import { RootState } from '../redux/store';
 import { editContactSlice } from '../redux/features/selectedContactSlice';
 
 interface EditContact {
+  editContact: any;
   id: string;
   firstName: string;
   lastName: string;
@@ -13,29 +14,30 @@ interface EditContact {
 
 function EditContactDetails() {
   const editContact = useSelector((state: RootState) => state.editContact) as unknown as EditContact;
-  console.log('editcontact 1 ', editContact)
   const dispatch = useDispatch();
-
+  
   const [status, setStatus] = useState<string>("active");
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
-
+  
   const handleStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
     setStatus(e.target.value);
   };
-
+  
   // console.log("id", editContact.editContact[0].id);x
-
-
+  
+  
   const handleSaveContact = () => {
+    console.log('editcontact 1 ', editContact)
     const editedContact: EditContact = {
-      id: editContact.id,
+      id: editContact.editContact[0].id,
       firstName: firstName,
       lastName: lastName,
       status: status,
+      editContact: undefined
     };
-
-    dispatch(updateContact({ id: editContact.id, updatedContact: editedContact }));
+console.log("id ",editContact.editContact[0].id)
+    dispatch(updateContact({ id: editContact.editContact[0].id, updatedContact: editedContact }));
   };
 
   return (
