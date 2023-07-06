@@ -1,7 +1,6 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
-
 import {editContactSlice} from "./features/selectedContactSlice";
 import {contactSlice} from "./features/contactSlice";
 

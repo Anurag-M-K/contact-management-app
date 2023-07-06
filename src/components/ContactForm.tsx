@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setContacts } from "../redux/features/contactSlice";
 import { RootState } from "../redux/store";
 import { v4 as uuidv4 } from "uuid";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 function ContactForm() {
   const [status, setStatus] = useState("");
@@ -17,10 +19,10 @@ function ContactForm() {
 
   const handleSubmit = () => {
     if (!firstName || !lastName || !status) {
-      // Perform validation here, display error message or take appropriate action
-      alert("cant be null");
+      toast.error("Cant be null any field");
       return;
     }
+    
     const contactData = {
       id: uuidv4(),
       firstName,
@@ -28,6 +30,7 @@ function ContactForm() {
       status,
     };
     dispatch(setContacts([contactData]));
+    toast.success("Contact submited successfully")
     setStatus("");
     setFirstName("");
     setLastName("");
@@ -91,6 +94,7 @@ function ContactForm() {
           Save Contact
         </button>
       </div>
+      <Toaster />
     </div>
   );
 }

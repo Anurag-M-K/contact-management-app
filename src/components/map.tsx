@@ -4,15 +4,6 @@ import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L, { Icon } from "leaflet";
 
-// Fix for marker icon issue
-// Fix for marker icon issue
-// delete (Icon.Default.prototype as any)._getIconUrl;
-// const defaultIconOptions = L.Icon.Default.prototype.options;
-// defaultIconOptions.iconRetinaUrl = require('leaflet/dist/images/marker-icon-2x.png').default;
-// defaultIconOptions.iconUrl = require('leaflet/dist/images/marker-icon.png').default;
-// defaultIconOptions.shadowUrl = require('leaflet/dist/images/marker-shadow.png').default;
-// L.Icon.Default.mergeOptions(defaultIconOptions);
-
 interface CountryData {
   country: string;
   active: number;
@@ -31,18 +22,21 @@ interface WorldData {
 }
 
 const Map: React.FC = () => {
+    // Fetch country data
   const fetchCountriesData = async () => {
     const response = await fetch("https://disease.sh/v3/covid-19/countries");
     const data: CountryData[] = await response.json();
     return data;
   };
 
+    // Fetch world data
   const fetchWorldData = async () => {
     const response = await fetch("https://disease.sh/v3/covid-19/all");
     const data: WorldData = await response.json();
     return data;
   };
 
+    // Use react-query to fetch data and handle loading and caching
   const { data: countriesData } = useQuery<CountryData[]>(
     "countriesData",
     fetchCountriesData

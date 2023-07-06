@@ -19,9 +19,13 @@ import {
 
 const Map = () => {
   const [chartData, setChartData] = useState({});
+
+    // Fetch countries data
   const { data: countriesData } = useQuery("countriesData", () =>
     axios("https://disease.sh/v3/covid-19/countries").then((res) => res.data)
   );
+
+    // Fetch historical data
   const { data: historicalData } = useQuery("historicalData", () =>
     axios("https://disease.sh/v3/covid-19/historical/all?lastdays=all").then(
       (res) => res.data
@@ -30,6 +34,8 @@ const Map = () => {
 
   useEffect(() => {
     if (historicalData) {
+
+       // Prepare chart data
       const newChartData = {
         labels: Object.keys(historicalData.cases),
         datasets: [
@@ -45,6 +51,7 @@ const Map = () => {
       setChartData(newChartData);
     }
 
+    // Register chart components
     ChartJS.register(
       CategoryScale,
       LinearScale,

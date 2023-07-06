@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateContact } from "../redux/features/contactSlice";
 import { RootState } from "../redux/store";
 import { editContactSlice } from "../redux/features/selectedContactSlice";
+import toast, { Toaster } from 'react-hot-toast';
+import { useNavigate } from "react-router-dom";
 
 interface EditContact {
   editContact: any;
@@ -13,6 +15,7 @@ interface EditContact {
 }
 
 function EditContactDetails() {
+  const navigate = useNavigate()
   const editContact = useSelector(
     (state: RootState) => state.editContact
   ) as unknown as EditContact;
@@ -27,24 +30,28 @@ function EditContactDetails() {
   };
 
   const handleSaveContact = () => {
-    console.log("editcontact 1 ", editContact);
-    const editedContact: EditContact = {
-      id: editContact.editContact[0].id,
-      firstName: firstName,
-      lastName: lastName,
-      status: status,
-      editContact: undefined,
-    };
-    dispatch(
-      updateContact({
+    try {
+      const editedContact: EditContact = {
         id: editContact.editContact[0].id,
-        updatedContact: editedContact,
-      })
-    );
-    setStatus("");
-    setFirstName("");
-    setLastName("");
-  };
+        firstName: firstName,
+        lastName: lastName,
+        status: status,
+        editContact: undefined,
+      };
+      dispatch(
+        updateContact({
+          id: editContact.editContact[0].id,
+          updatedContact: editedContact,
+        })
+      );
+      setStatus("");
+      setFirstName("");
+      setLastName("");
+      navigate("/")
+    } catch (error) {
+     toast.error("Something went wrong, Try again later  ") 
+    }
+    }
 
   return (
     <div className="w-full flex flex-col justify-center items-center">
@@ -99,6 +106,7 @@ function EditContactDetails() {
           Save Edited Contact
         </button>
       </div>
+      <Toaster/>
     </div>
   );
 }

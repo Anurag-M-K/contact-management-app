@@ -8,7 +8,6 @@ import ContactCards from "../components/ContactCards";
 function EmptyContact() {
   const navigate = useNavigate();
   const { contacts } = useSelector((state: RootState) => state.contacts);
-  console.log("contacts ", contacts);
 
   return (
     <div className="w-full flex flex-col justify-center items-center">
@@ -20,12 +19,12 @@ function EmptyContact() {
       </button>
 
       {contacts?.length == 0 ? (
-        <div className="border border-black px-5 py-2 flex items-start ">
+        <div className="border border-black px-5 py-2 my-20 bg-[#dcdcdc] flex items-start ">
           <AiFillCloseCircle size={40} />
-          <div>
-            <h3>No Contact Found</h3>
-            <h3>Please add Contact From</h3>
-            <h3>Create Contact Button</h3>
+          <div className="">
+            <h3 className="font-medium">No Contact Found</h3>
+            <h3 className="font-medium">Please add Contact From</h3>
+            <h3 className="font-medium">Create Contact Button</h3>
           </div>
         </div>
       ) : (

@@ -4,6 +4,7 @@ import { RootState } from "../redux/store";
 import { setEditContact } from "../redux/features/selectedContactSlice";
 import { useNavigate } from "react-router-dom";
 import { deleteContact } from "../redux/features/contactSlice";
+import toast, { Toaster } from 'react-hot-toast';
 
 interface Contact {
   id: string;
@@ -18,13 +19,22 @@ function ContactCards() {
   const navigate = useNavigate();
 
   const handleEdit = (contact: Contact) => {
-    const editedContactArray: Contact[] = [contact]; // Wrap the contact object in an array
-    dispatch(setEditContact(editedContactArray));
-    navigate("edit");
+    try {
+      const editedContactArray: Contact[] = [contact]; // Wrap the contact object in an array
+      dispatch(setEditContact(editedContactArray));
+      navigate("edit");
+    } catch (error) {
+      toast.error("Something went wrong, Try again later  ")
+    }
   };
 
   const handleDelete = (contact: Contact) => {
-    dispatch(deleteContact(contact.id));  
+    try {
+      dispatch(deleteContact(contact.id));  
+      toast.success("Deleted successfully")
+    } catch (error) {
+    toast.error("Something went wrong, Try again later  ")      
+    }
   };
   
   return (
@@ -58,6 +68,7 @@ function ContactCards() {
           </div>
         );
       })}
+      <Toaster/>
     </div>
   );
 }

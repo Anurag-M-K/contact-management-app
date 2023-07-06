@@ -13,11 +13,10 @@ function Routing() {
     <div className="sm:mx-16  border-4 border-blue-800 bg-[#e5e4e4]">
       <Header />
       <div className="flex">
-
       <Sidebar />
       <Routes>
         <Route path="/contact-form" element={<ContactFormPage />} />
-        <Route path="/" element={<EmptyContact />} />
+        <Route path="/contact-management-app" element={<EmptyContact />} />
         <Route path="/edit" element={<EditContactDetails />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
