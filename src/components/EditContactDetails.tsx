@@ -47,7 +47,7 @@ function EditContactDetails() {
       setStatus("");
       setFirstName("");
       setLastName("");
-      navigate("/")
+      navigate("/contact-management-app")
     } catch (error) {
      toast.error("Something went wrong, Try again later  ") 
     }

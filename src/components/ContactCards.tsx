@@ -22,7 +22,7 @@ function ContactCards() {
     try {
       const editedContactArray: Contact[] = [contact]; // Wrap the contact object in an array
       dispatch(setEditContact(editedContactArray));
-      navigate("edit");
+      navigate("/contact-management-app/edit");
     } catch (error) {
       toast.error("Something went wrong, Try again later  ")
     }

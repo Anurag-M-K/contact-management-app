@@ -17,7 +17,7 @@ function Routing() {
       <Routes>
         <Route path="/contact-form" element={<ContactFormPage />} />
         <Route path="/contact-management-app" element={<EmptyContact />} />
-        <Route path="/edit" element={<EditContactDetails />} />
+        <Route path="/contact-management-app/edit" element={<EditContactDetails />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
       </div>
